@@ -1,4 +1,6 @@
 *.py[cod]
+*.swp
+sessions
 
 # C extensions
 *.so
