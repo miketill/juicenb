@@ -87,6 +87,9 @@ def notebook():
             f['stock'] = ''
     recipe_records = db.recipes.find({'username':session['username']})
     recipes = [r for r in recipe_records]
+    for r in recipes:
+        if 'code' not in r:
+            r['code'] = ''
     return template('notebook.main',username=session['username'],flavors=flavors, recipes=recipes)
 
 @route('/notebook/recipes/<oid>')
@@ -136,6 +139,39 @@ def update_recipe(oid):
                 db.recipes.save(recipe_record)
     redirect('/notebook')
 
+def get_next_recipe_id():
+    db = get_db()
+    username = get_session()['username']
+    return 'BAT-'+str(db.users.find_and_modify(
+        query={
+            '_id':username
+        },
+        fields={
+            'batch_seq':1
+        },
+        update={
+            '$inc':{'batch_seq':1}
+        },
+        new=True
+    )['batch_seq'])
+
+def get_next_recipe_id():
+    db = get_db()
+    username = get_session()['username']
+    return 'REC-'+str(db.users.find_and_modify(
+        query={
+            '_id':username
+        },
+        fields={
+            'recipe_seq':1
+        },
+        update={
+            '$inc':{'recipe_seq':1}
+        },
+        new=True
+    )['recipe_seq'])
+
+
 @route('/notebook/recipes', method='POST')
 def new_recipe():
     session = get_session()
@@ -160,6 +196,7 @@ def new_recipe():
 
         if len(recipe['components']) > 0:
             db = get_db()
+            recipe['code'] = get_next_recipe_id()
             db.recipes.insert(recipe)
     redirect('/notebook')
 

@@ -73,6 +73,7 @@
                 <caption>Recipes</caption>
                 <thead>
                     <tr>
+                        <th>Code</th>
                         <th>Name</th>
                         <th>Flavor</th>
                         <th>Flavor</th>
@@ -83,6 +84,7 @@
                 <tbody>
                     %for r in recipes:
                         <tr onclick='edit_recipe("{{r['_id']}}")'>
+                            <td>{{r['code']}}</td>
                             <td>{{r['name']}}</td>
                             <td>{{r['components'][0]['flavor']}} @ {{r['components'][0]['percent']}}%</td>
                             %if len(r['components']) > 1:
