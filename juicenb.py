@@ -139,7 +139,7 @@ def update_recipe(oid):
                 db.recipes.save(recipe_record)
     redirect('/notebook')
 
-def get_next_recipe_id():
+def get_next_batch_id():
     db = get_db()
     username = get_session()['username']
     return 'BAT-'+str(db.users.find_and_modify(
@@ -171,6 +171,20 @@ def get_next_recipe_id():
         new=True
     )['recipe_seq'])
 
+
+@route('/notebook/recipes/<oid>/batches', method='POST')
+def new_batch(oid):
+    session = get_session()
+    if 'username' not in session:
+        redirect('/')
+    batch_size = request.forms.batch_size
+    notes = request.forms.new_batch_notes.strip()
+    if batch_size:
+        batch = {'username':session['username'],'batch_size':batch_size,'notes':notes}
+        db = get_db()
+        batch['code'] = get_next_batch_id()
+        db.recipes.insert(recipe)
+    redirect('/notebook')
 
 @route('/notebook/recipes', method='POST')
 def new_recipe():
