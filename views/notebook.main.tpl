@@ -22,6 +22,7 @@
                 $.getJSON('/notebook/recipes/'+oid, function(data) {
                     $('#edit_recipe_form')[0].reset();
                     $('#edit_recipe_form').attr('action','/notebook/recipes/'+oid);
+                    $('#edit_recipe_form_oid').val(oid);
                     $('#edit_recipe_name').val(data.name);
                     //alert(data.components.length)
                     for (var i = 0; i < data.components.length; i++) {
@@ -32,6 +33,14 @@
                     $('#edit_recipe_notes').val(data.notes);
                     $('#m_edit_recipe').modal('toggle');
                 });
+            }
+
+            function new_batch(oid) {
+                $('#m_edit_recipe').modal('toggle');
+                var oid = $('#edit_recipe_form_oid').val();
+                $('#add_batch_form').attr('action','/notebook/recipes/'+oid+'/batches');
+                $('#add_batch_recipe_name').val($("#edit_recipe_name").val());
+                $('#m_add_batch').modal('toggle');
             }
         </script>
     </head>
@@ -243,6 +252,7 @@
         </div>
         <div id='m_edit_recipe' class='modal hide fade' tabindex='-1' role='dialog'>
             <form class='form-horizontal' id='edit_recipe_form' action='/notebook/recipes' method='POST'>
+                <input type='hidden' id='edit_recipe_form_oid'>
                 <div class='modal-header'>
                     <h3>Edit Recipe</h3>
                 </div>
@@ -299,8 +309,41 @@
                     </div>
                 </div>
                 <div class='modal-footer'>
+                    <button type='button' class='btn' onclick='new_batch("")'>Create Batch</button>
                     <button type='button' class='btn' data-dismiss='modal'>Cancel</button>
                     <button type='submit' class='btn btn-primary'>Update Recipe</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div id='m_add_batch' class='modal hide fade' tabindex='-1' role='dialog'>
+            <form class='form-horizontal' id='add_batch_form' action='/notebook/recipes' method='POST'>
+                <div class='modal-header'>
+                    <h3>Add Batch</h3>
+                </div>
+                <div class='modal-body'>
+                    <div class='control-group'>
+                        <div class='controls'>
+                            <input type='text' id='add_batch_recipe_name' placeholder='Name of recipe' readonly>
+                        </div>
+                    </div>
+                    <div class='control-group'>
+                        <label for='new_batch_size' class='control-label'>Amount</label>
+                        <div class='controls'>
+                            <input type='text' id='new_batch_size' name='new_batch_size' placeholder='Batch Amount'>
+                        </div>
+                    </div>
+                    <div class='control-group'>
+                        <label for='new_batch_notes' class='control-label'>Notes</label>
+                        <div class='controls'>
+                            <textarea rows='5' name='new_batch_notes' placeholder='Notes on this batch'></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn' data-dismiss='modal'>Cancel</button>
+                    <button type='submit' class='btn btn-primary'>Add Batch</button>
                 </div>
             </form>
         </div>
