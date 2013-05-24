@@ -35,6 +35,7 @@
                     //load batches
                     $.getJSON('/notebook/recipes/'+oid+'/batches', function(data) {
                         b = $('#batch_list_body');
+                        b.empty()
                         for (var i in data) {
                             batch = data[i];
                             row = $('<tr>');
