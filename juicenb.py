@@ -5,6 +5,7 @@ from beaker.middleware import SessionMiddleware
 from bottle import route, template, request, redirect, abort
 import bson
 from bson import json_util
+import datetime
 
 session_opts = {
         'session.type': 'file',
@@ -172,6 +173,16 @@ def get_next_recipe_id():
     )['recipe_seq'])
 
 
+@route('/notebook/recipes/<oid>/batches', method='GET')
+def new_batch(oid):
+    session = get_session()
+    if 'username' not in session:
+        abort(404)
+        return
+    db = get_db()
+    batches = db.batches.find({"recipe":oid,'username':session['username']})
+    return json_util.dumps(batches)
+
 @route('/notebook/recipes/<oid>/batches', method='POST')
 def new_batch(oid):
     session = get_session()
@@ -183,6 +194,8 @@ def new_batch(oid):
         batch = {'username':session['username'],'batch_size':batch_size,'notes':notes}
         db = get_db()
         batch['code'] = get_next_batch_id()
+        batch['batch_date'] = datetime.datetime.utcnow()
+        batch['recipe'] = oid
         db.batches.insert(batch)
     redirect('/notebook')
 
@@ -257,7 +270,6 @@ def new_flavor():
     brand = request.forms.new_flavor_brand.strip()
     notes = request.forms.new_flavor_notes.strip()
     stock = request.forms.edit_flavor_stock.strip()
-    print flavor, supplier, brand
     if flavor:
         flavor_record = {'username':session['username'],'flavor':flavor,'supplier':supplier,'stock':stock,'brand':brand,'notes':notes}
         db = get_db()

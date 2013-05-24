@@ -31,6 +31,20 @@
                         $('#edit_flavor_'+(i+1)+'_percent').val(data.components[i].percent);
                     }
                     $('#edit_recipe_notes').val(data.notes);
+
+                    //load batches
+                    $.getJSON('/notebook/recipes/'+oid+'/batches', function(data) {
+                        b = $('#batch_list_body');
+                        for (var i in data) {
+                            batch = data[i];
+                            row = $('<tr>');
+                            row.append($('<td>').text(batch.code));
+                            row.append($('<td>').text(batch.batch_size));
+                            row.append($('<td>').text(new Date(batch.batch_date['$date']).toLocaleString()));
+                            row.append($('<td>').text(batch.notes));
+                            b.append(row);
+                        }
+                    });
                     $('#m_edit_recipe').modal('toggle');
                 });
             }
@@ -307,6 +321,19 @@
                             <textarea rows='5' id='edit_recipe_notes' name='edit_recipe_notes' placeholder='Notes on this recipe'></textarea>
                         </div>
                     </div>
+                    <table class='table table-hover table-condensed'>
+                        <caption>Batches</caption>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id='batch_list_body'>
+                        </tbody>
+                    </table>
                 </div>
                 <div class='modal-footer'>
                     <button type='button' class='btn' onclick='new_batch("")'>Create Batch</button>
