@@ -85,9 +85,6 @@ def notebook():
     flavors = [f for f in flavor_records]
     recipe_records = db.recipes.find({'username':session['username']})
     recipes = [r for r in recipe_records]
-    for r in recipes:
-        if 'code' not in r:
-            r['code'] = ''
     return template('notebook.main',username=session['username'],flavors=flavors, recipes=recipes)
 
 @route('/notebook/recipes/<oid>')
