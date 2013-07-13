@@ -83,9 +83,6 @@ def notebook():
     db = get_db()
     flavor_records = db.flavors.find({'username':session['username']})
     flavors = [f for f in flavor_records]
-    for f in flavors:
-        if 'stock' not in f:
-            f['stock'] = ''
     recipe_records = db.recipes.find({'username':session['username']})
     recipes = [r for r in recipe_records]
     for r in recipes:
@@ -255,7 +252,6 @@ def update_flavor(oid):
         flavor_record['supplier'] = request.forms.edit_flavor_supplier.strip()
         flavor_record['brand'] = request.forms.edit_flavor_brand.strip()
         flavor_record['notes'] = request.forms.edit_flavor_notes.strip()
-        flavor_record['stock'] = request.forms.edit_flavor_stock.strip()
         db.flavors.save(flavor_record)
     redirect('/notebook')
 
@@ -269,9 +265,8 @@ def new_flavor():
     supplier = request.forms.new_flavor_supplier.strip()
     brand = request.forms.new_flavor_brand.strip()
     notes = request.forms.new_flavor_notes.strip()
-    stock = request.forms.edit_flavor_stock.strip()
     if flavor:
-        flavor_record = {'username':session['username'],'flavor':flavor,'supplier':supplier,'stock':stock,'brand':brand,'notes':notes}
+        flavor_record = {'username':session['username'],'flavor':flavor,'supplier':supplier,'brand':brand,'notes':notes}
         db = get_db()
         db.flavors.insert(flavor_record)
     redirect('/notebook')

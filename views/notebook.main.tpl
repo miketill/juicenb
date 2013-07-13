@@ -77,7 +77,6 @@
                         <th>Flavor</th>
                         <th>Brand</th>
                         <th>Supplier</th>
-			<th>Amount (ml)</th>
                         <th>Notes</th>
                     </tr>
                 </thead>
@@ -87,7 +86,6 @@
                             <td>{{f['flavor']}}</td>
                             <td>{{f['brand']}}</td>
                             <td>{{f['supplier']}}</td>
-                            <td>{{f['stock']}}</td>
                             <td>{{f['notes']}}</td>
                         </tr>
                     %end
@@ -175,7 +173,6 @@
                     <label for='edit_flavor_brand'>Brand</label><input id='edit_flavor_brand' name='edit_flavor_brand' placeholder='e.g., The Flavor Apprentice'>
                     <label for='edit_flavor_supplier'>Supplier</label><input id='edit_flavor_supplier' name='edit_flavor_supplier' placeholder='e.g., Wizard Labs'>
                     <label for='edit_flavor'>Flavor</label><input id='edit_flavor' name='edit_flavor' placeholder='e.g., Fruit Blast'>
-                    <label for='edit_flavor_stock'>Amount (ml)</label><input id='edit_flavor_stock' name='edit_flavor_stock' placeholder='42'>
                     <label for='edit_flavor_notes'>Notes</label><textarea rows='5' name='edit_flavor_notes' id='edit_flavor_notes' placeholder='Notes on this flavoring'></textarea>
                 </div>
                 <div class='modal-footer'>
@@ -193,7 +190,6 @@
                     <label for='new_flavor_brand'>Brand</label><input id='new_flavor_brand' name='new_flavor_brand' placeholder='e.g., The Flavor Apprentice'>
                     <label for='new_flavor_supplier'>Supplier</label><input id='new_flavor_supplier' name='new_flavor_supplier' placeholder='e.g., Wizard Labs'>
                     <label for='new_flavor'>Flavor</label><input id='new_flavor' name='new_flavor' placeholder='e.g., Fruit Blast'>
-                    <label for='edit_flavor_stock'>Amount (ml)</label><input id='edit_flavor_stock' name='edit_flavor_stock' placeholder='42'>
                     <label for='new_flavor_notes'>Notes</label><textarea rows='5' name='new_flavor_notes' placeholder='Notes on this flavoring'></textarea>
                 </div>
                 <div class='modal-footer'>
