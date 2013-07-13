@@ -50,12 +50,20 @@
                 });
             }
 
-            function new_batch(oid) {
+            function new_batch() {
                 $('#m_edit_recipe').modal('toggle');
                 var oid = $('#edit_recipe_form_oid').val();
                 $('#add_batch_form').attr('action','/notebook/recipes/'+oid+'/batches');
                 $('#add_batch_recipe_name').val($("#edit_recipe_name").val());
                 $('#m_add_batch').modal('toggle');
+            }
+
+            function new_flavor_container(oid) {
+                $('#m_edit_flavoring').modal('toggle');
+                var oid = $('#edit_recipe_form_oid').val();
+                $('#add_container_form').attr('action','/notebook/flavors/'+oid+'/containers');
+                $('#add_container_flavor_name').val($("#edit_flavor").val());
+                $('#m_add_container').modal('toggle');
             }
         </script>
     </head>
@@ -174,8 +182,21 @@
                     <label for='edit_flavor_supplier'>Supplier</label><input id='edit_flavor_supplier' name='edit_flavor_supplier' placeholder='e.g., Wizard Labs'>
                     <label for='edit_flavor'>Flavor</label><input id='edit_flavor' name='edit_flavor' placeholder='e.g., Fruit Blast'>
                     <label for='edit_flavor_notes'>Notes</label><textarea rows='5' name='edit_flavor_notes' id='edit_flavor_notes' placeholder='Notes on this flavoring'></textarea>
+                    <table class='table table-hover table-condensed'>
+                        <caption>Containers</caption>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Amount</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        <tbody id='container_list_body'>
+                        </tbody>
+                    </table>
                 </div>
                 <div class='modal-footer'>
+                    <button type='button' class='btn' onclick='new_flavor_container("")'>Add Container</button>
                     <button type='button' class='btn' data-dismiss='modal'>Cancel</button>
                     <button type='submit' class='btn btn-primary'>Update Flavoring</button>
                 </div>
@@ -333,13 +354,12 @@
                     </table>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn' onclick='new_batch("")'>Create Batch</button>
+                    <button type='button' class='btn' onclick='new_batch()'>Create Batch</button>
                     <button type='button' class='btn' data-dismiss='modal'>Cancel</button>
                     <button type='submit' class='btn btn-primary'>Update Recipe</button>
                 </div>
             </form>
         </div>
-
 
         <div id='m_add_batch' class='modal hide fade' tabindex='-1' role='dialog'>
             <form class='form-horizontal' id='add_batch_form' action='/notebook/recipes' method='POST'>
@@ -368,6 +388,31 @@
                 <div class='modal-footer'>
                     <button type='button' class='btn' data-dismiss='modal'>Cancel</button>
                     <button type='submit' class='btn btn-primary'>Add Batch</button>
+                </div>
+            </form>
+        </div>
+
+        <div id='m_add_container' class='modal hide fade' tabindex='-1' role='dialog'>
+            <form class='form-horizontal' id='add_container_form' action='/notebook/recipes' method='POST'>
+                <div class='modal-header'>
+                    <h3>Add Container</h3>
+                </div>
+                <div class='modal-body'>
+                    <div class='control-group'>
+                        <div class='controls'>
+                            <input type='text' id='add_container_flavor_name' placeholder='Name of flavor' readonly>
+                        </div>
+                    </div>
+                    <div class='control-group'>
+                        <label for='new_container_amount' class='control-label'>Amount</label>
+                        <div class='controls'>
+                            <input type='text' id='new_container_amount' name='new_container_amount' placeholder='Container Amount (ml)'>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn' data-dismiss='modal'>Cancel</button>
+                    <button type='submit' class='btn btn-primary'>Add Container</button>
                 </div>
             </form>
         </div>

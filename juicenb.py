@@ -134,6 +134,22 @@ def update_recipe(oid):
                 db.recipes.save(recipe_record)
     redirect('/notebook')
 
+def get_next_container_id():
+    db = get_db()
+    username = get_session()['username']
+    return str(db.users.find_and_modify(
+        query={
+            '_id':username
+        },
+        fields={
+            'container_seq':1
+        },
+        update={
+            '$inc':{'container_seq':1}
+        },
+        new=True
+    )['batch_seq'])
+
 def get_next_batch_id():
     db = get_db()
     username = get_session()['username']
