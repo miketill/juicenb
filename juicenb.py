@@ -148,7 +148,7 @@ def get_next_container_id():
             '$inc':{'container_seq':1}
         },
         new=True
-    )['batch_seq'])
+    )['container_seq'])
 
 def get_next_batch_id():
     db = get_db()
@@ -183,8 +183,37 @@ def get_next_recipe_id():
     )['recipe_seq'])
 
 
+@route('/notebook/flavors/<oid>/containers', method='GET')
+def get_containers(oid):
+    session = get_session()
+    if 'username' not in session:
+        abort(404)
+        return
+    db = get_db()
+    containers = db.containers.find({"flavor":oid,'username':session['username']})
+    return json_util.dumps(containers)
+
+@route('/notebook/flavors/<oid>/containers', method='POST')
+def new_container(oid):
+    session = get_session()
+    if 'username' not in session:
+        redirect('/')
+    container_amount = request.forms.new_container_amount
+    if container_amount:
+        container = {'container_amount':container_amount}
+        db = get_db()
+        container['code'] = get_next_container_id()
+        container['created'] = datetime.datetime.utcnow()
+        db.flavors.update(
+            {
+                '_id': bson.ObjectId(oid)
+            },
+            {"$push":{"containers":container}}
+        )
+    redirect('/notebook')
+
 @route('/notebook/recipes/<oid>/batches', method='GET')
-def new_batch(oid):
+def get_batches(oid):
     session = get_session()
     if 'username' not in session:
         abort(404)

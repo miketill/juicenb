@@ -9,12 +9,23 @@
             function edit_flavor(oid) {
                 $.getJSON('/notebook/flavors/'+oid, function(data) {
                     $('#edit_flavor_form')[0].reset();
+                    $('#edit_flavor_oid').val(oid);
                     $('#edit_flavor_form').attr('action','/notebook/flavors/'+oid);
                     $('#edit_flavor_brand').val(data.brand);
                     $('#edit_flavor_supplier').val(data.supplier);
                     $('#edit_flavor_notes').val(data.notes);
                     $('#edit_flavor').val(data.flavor);
                     $('#m_edit_flavoring').modal('toggle');
+                    b = $('#container_list_body');
+                    b.empty()
+                    for (var i = 0; i < data.containers.length; i++) {
+                        container = data.containers[i];
+                        row = $('<tr>');
+                        row.append($('<td>').text(container.code));
+                        row.append($('<td>').text(container.container_amount));
+                        row.append($('<td>').text(new Date(container.created['$date']).toLocaleString()));
+                        b.append(row);
+                    }
                 });
             }
 
@@ -58,9 +69,9 @@
                 $('#m_add_batch').modal('toggle');
             }
 
-            function new_flavor_container(oid) {
+            function new_flavor_container() {
                 $('#m_edit_flavoring').modal('toggle');
-                var oid = $('#edit_recipe_form_oid').val();
+                var oid = $('#edit_flavor_oid').val();
                 $('#add_container_form').attr('action','/notebook/flavors/'+oid+'/containers');
                 $('#add_container_flavor_name').val($("#edit_flavor").val());
                 $('#m_add_container').modal('toggle');
@@ -86,6 +97,7 @@
                         <th>Brand</th>
                         <th>Supplier</th>
                         <th>Notes</th>
+                        <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,6 +107,7 @@
                             <td>{{f['brand']}}</td>
                             <td>{{f['supplier']}}</td>
                             <td>{{f['notes']}}</td>
+                            <td>{{sum([int(c['container_amount']) for c in f['containers']]) if 'containers' in f else 0}}</td>
                         </tr>
                     %end
                 </tbody>
@@ -173,7 +186,7 @@
         </div>
         <div id='m_edit_flavoring' class='modal hide fade' tabindex='-1' role='dialog'>
             <form id='edit_flavor_form' action='/notebook/flavors' method='POST'>
-                <input type='hidden' name='edit_flavor_oid' value=''>
+                <input type='hidden' id='edit_flavor_oid' value=''>
                 <div class='modal-header'>
                     <h3>Edit Flavoring</h3>
                 </div>
@@ -196,7 +209,7 @@
                     </table>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn' onclick='new_flavor_container("")'>Add Container</button>
+                    <button type='button' class='btn' onclick='new_flavor_container()'>Add Container</button>
                     <button type='button' class='btn' data-dismiss='modal'>Cancel</button>
                     <button type='submit' class='btn btn-primary'>Update Flavoring</button>
                 </div>
