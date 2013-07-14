@@ -183,16 +183,6 @@ def get_next_recipe_id():
     )['recipe_seq'])
 
 
-@route('/notebook/flavors/<oid>/containers', method='GET')
-def get_containers(oid):
-    session = get_session()
-    if 'username' not in session:
-        abort(404)
-        return
-    db = get_db()
-    containers = db.containers.find({"flavor":oid,'username':session['username']})
-    return json_util.dumps(containers)
-
 @route('/notebook/flavors/<oid>/containers', method='POST')
 def new_container(oid):
     session = get_session()
