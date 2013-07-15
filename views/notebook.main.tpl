@@ -98,6 +98,7 @@
                         <th>Supplier</th>
                         <th>Notes</th>
                         <th>Amount</th>
+                        <th># Containers</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,6 +109,7 @@
                             <td>{{f['supplier']}}</td>
                             <td>{{f['notes']}}</td>
                             <td>{{sum([int(c['container_amount']) for c in f['containers']]) if 'containers' in f else 0}}</td>
+                            <td>{{len(f['containers']) if 'containers' in f else 0}}
                         </tr>
                     %end
                 </tbody>
