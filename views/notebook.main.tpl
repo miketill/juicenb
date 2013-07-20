@@ -250,7 +250,7 @@
                         <div class='controls'>
                             <select id='flavor_1' class='input-medium' name='flavor_1'>
                                 %for f in flavors:
-                                <option value='{{f['flavor']}}'>{{f['flavor']}} ({{f['brand']}})</option>
+                                <option value='{{f['flavor']}} ({{f['brand']}})'>{{f['flavor']}} ({{f['brand']}})</option>
                                 %end
                             </select>
                             <div class='input-append'>
@@ -263,7 +263,7 @@
                         <div class='controls'>
                             <select id='flavor_2' class='input-medium' name='flavor_2'>
                                 %for f in flavors:
-                                <option value='{{f['flavor']}}'>{{f['flavor']}} ({{f['brand']}})</option>
+                                <option value='{{f['flavor']}} ({{f['brand']}})'>{{f['flavor']}} ({{f['brand']}})</option>
                                 %end
                             </select>
                             <div class='input-append'>
@@ -276,7 +276,7 @@
                         <div class='controls'>
                             <select id='flavor_3' class='input-medium' name='flavor_3'>
                                 %for f in flavors:
-                                <option value='{{f['flavor']}}'>{{f['flavor']}} ({{f['brand']}})</option>
+                                <option value='{{f['flavor']}} ({{f['brand']}})'>{{f['flavor']}} ({{f['brand']}})</option>
                                 %end
                             </select>
                             <div class='input-append'>
@@ -314,7 +314,7 @@
                         <div class='controls'>
                             <select id='edit_flavor_1' class='input-medium' name='edit_flavor_1'>
                                 %for f in flavors:
-                                <option value='{{f['flavor']}}'>{{f['flavor']}} ({{f['brand']}})</option>
+                                <option value='{{f['flavor']}} ({{f['brand']}})'>{{f['flavor']}} ({{f['brand']}})</option>
                                 %end
                             </select>
                             <div class='input-append'>
@@ -327,7 +327,7 @@
                         <div class='controls'>
                             <select id='edit_flavor_2' class='input-medium' name='edit_flavor_2'>
                                 %for f in flavors:
-                                <option value='{{f['flavor']}}'>{{f['flavor']}} ({{f['brand']}})</option>
+                                <option value='{{f['flavor']}} ({{f['brand']}})'>{{f['flavor']}} ({{f['brand']}})</option>
                                 %end
                             </select>
                             <div class='input-append'>
@@ -340,7 +340,7 @@
                         <div class='controls'>
                             <select id='edit_flavor_3' class='input-medium' name='edit_flavor_3'>
                                 %for f in flavors:
-                                <option value='{{f['flavor']}}'>{{f['flavor']}} ({{f['brand']}})</option>
+                                <option value='{{f['flavor']}} ({{f['brand']}})'>{{f['flavor']}} ({{f['brand']}})</option>
                                 %end
                             </select>
                             <div class='input-append'>
